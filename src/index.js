@@ -1,6 +1,8 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
+import { getBooks } from "./db-helpers";
+
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
@@ -36,7 +38,10 @@ const books = [
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
   Query: {
-    books: () => books,
+    books: async () => {
+      const books = await getBooks();
+      return books;
+    },
   },
 };
 
